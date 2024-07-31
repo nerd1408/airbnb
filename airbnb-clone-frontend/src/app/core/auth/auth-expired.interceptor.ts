@@ -12,7 +12,8 @@ export const authExpired: HttpInterceptorFn = (
     tap({
       error: (err: HttpErrorResponse) => {
         if(err.status === 401 && err.url && !err.url.includes("api/auth") && authService.isAuthenticated()) {
-          authService.login();
+          authService.logout();
+          console.error("Session Expired",err)
         }
       }
     })

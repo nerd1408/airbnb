@@ -24,9 +24,13 @@ border-none bg-white text-dark focus:shadow-none">
       </button>
     </div>
     <div class="p-toolbar-group-end sm:hidden md:flex">
-      @if(authService.isAuthenticated()){
+      <ng-container *ngIf="authService.isAuthenticated(); else authMenu">
         <a class="p-button p-button-link" (click)="openNewListing()">Airbnb your home</a>
-      }
+      </ng-container>
+      <ng-template #authMenu>
+        <button class="p-button p-button-link" (click)="openAuthPopup()">Log in</button>
+        <button class="p-button p-button-link" (click)="openAuthPopup()">Sign up</button>
+      </ng-template>
       <p-menu #menu [model]="currentMenuItems" [popup]="true" styleClass="border-round-xl mt-1"></p-menu>
       <button (click)="menu.toggle($event)" class="menu flex align-content-center
 justify-content-around ml-2 pl-3 p-2 border-gray-300 focus:shadow-none hover:shadow-1 border-round-3xl bg-white p-button">

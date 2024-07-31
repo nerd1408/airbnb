@@ -26,12 +26,8 @@ app.use('/api/listing', listingRoutes);
 app.use('/api/tenant-listing', tenantListingRoutes)
 
 // MongoDB Connection
-const mongoURI = 'mongodb://localhost:27017/airbnb';  
-mongoose.connect(mongoURI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  // Remove useCreateIndex and useFindAndModify options
-})
+const mongoURI = 'mongodb+srv://roeman:roeman@cluster0.nxiaxib.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';  
+mongoose.connect(mongoURI)
 .then(() => {
   console.log('Connected to MongoDB');
   // Start the server once MongoDB is connected

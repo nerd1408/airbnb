@@ -1,10 +1,10 @@
 import {ApplicationConfig} from '@angular/core';
 import {provideRouter} from '@angular/router';
-
 import {routes} from './app.routes';
 import {provideAnimations} from "@angular/platform-browser/animations";
 import {provideHttpClient, withInterceptors, withXsrfConfiguration} from "@angular/common/http";
 import {authExpired} from "./core/auth/auth-expired.interceptor";
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -14,6 +14,6 @@ export const appConfig: ApplicationConfig = {
       withXsrfConfiguration(
         {cookieName: "XSRF-TOKEN", headerName: "X-XSRF-TOKEN"}),
     ),
-    provideRouter(routes)
+    provideRouter(routes), provideAnimationsAsync(), 
   ]
 };

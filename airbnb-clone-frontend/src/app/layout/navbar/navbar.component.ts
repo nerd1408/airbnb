@@ -1,37 +1,41 @@
-import {Component, effect, inject, OnInit} from '@angular/core';
-import {ButtonModule} from "primeng/button";
-import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
-import {ToolbarModule} from "primeng/toolbar";
-import {MenuModule} from "primeng/menu";
-import {CategoryComponent} from "./category/category.component";
-import {AvatarComponent} from "./avatar/avatar.component";
-import {DialogService, DynamicDialogRef} from "primeng/dynamicdialog";
-import {MenuItem} from "primeng/api";
-import {ToastService} from "../toast.service";
-import {AuthService} from "../../core/auth/auth.service";
-import {User} from "../../core/model/user.model";
-import {PropertiesCreateComponent} from "../../landlord/properties-create/properties-create.component";
-import {SearchComponent} from "../../tenant/search/search.component";
-import {ActivatedRoute} from "@angular/router";
+import { Component, effect, inject, OnInit } from '@angular/core';
+import { ButtonModule } from "primeng/button";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { ToolbarModule } from "primeng/toolbar";
+import { MenuModule } from "primeng/menu";
+import { CategoryComponent } from "./category/category.component";
+import { AvatarComponent } from "./avatar/avatar.component";
+import { DialogService, DynamicDialogRef } from "primeng/dynamicdialog";
+import { MenuItem } from "primeng/api";
+import { ToastService } from "../toast.service";
+import { AuthService } from "../../core/auth/auth.service";
+import { User } from "../../core/model/user.model";
+import { PropertiesCreateComponent } from "../../landlord/properties-create/properties-create.component";
+import { SearchComponent } from "../../tenant/search/search.component";
+import { ActivatedRoute } from "@angular/router";
 import dayjs from "dayjs";
+import { AuthPopupComponent } from '../../auth-popup/auth-popup.component';
+import { CommonModule } from '@angular/common';
+import {MatDialogModule} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
   imports: [
+    CommonModule,
     ButtonModule,
     FontAwesomeModule,
     ToolbarModule,
     MenuModule,
     CategoryComponent,
-    AvatarComponent
+    AvatarComponent,
+    MatDialogModule
   ],
-  providers: [DialogService],
+  providers: [DialogService,ToastService],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.scss'
+  styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-
   location = "Anywhere";
   guests = "Add guests";
   dates = "Any week";
@@ -42,14 +46,14 @@ export class NavbarComponent implements OnInit {
   activatedRoute = inject(ActivatedRoute);
   ref: DynamicDialogRef | undefined;
 
-  login = () => this.authService.login();
+  login(email: string, password: string) {
+    this.authService.login({ email, password });
+  }
 
   logout = () => this.authService.logout();
 
   currentMenuItems: MenuItem[] | undefined = [];
-
-  connectedUser: User = {email: this.authService.notConnected};
-
+  connectedUser: User = { email: this.authService.notConnected };
 
   constructor() {
     effect(() => {
@@ -84,21 +88,21 @@ export class NavbarComponent implements OnInit {
         },
         {
           label: "Log out",
-          command: this.logout
+          command: () => this.logout()
         },
-      ]
+      ];
     } else {
       return [
         {
           label: "Sign up",
           styleClass: "font-bold",
-          command: this.login
+          command: () => this.openAuthPopup()
         },
         {
           label: "Log in",
-          command: this.login
+          command: () => this.openAuthPopup()
         }
-      ]
+      ];
     }
   }
 
@@ -107,27 +111,25 @@ export class NavbarComponent implements OnInit {
   }
 
   openNewListing(): void {
-    this.ref = this.dialogService.open(PropertiesCreateComponent,
-      {
-        width: "60%",
-        header: "Airbnb your home",
-        closable: true,
-        focusOnShow: true,
-        modal: true,
-        showHeader: true
-      })
+    this.ref = this.dialogService.open(PropertiesCreateComponent, {
+      width: "60%",
+      header: "Airbnb your home",
+      closable: true,
+      focusOnShow: true,
+      modal: true,
+      showHeader: true
+    });
   }
 
   openNewSearch(): void {
-    this.ref = this.dialogService.open(SearchComponent,
-      {
-        width: "40%",
-        header: "Search",
-        closable: true,
-        focusOnShow: true,
-        modal: true,
-        showHeader: true
-      });
+    this.ref = this.dialogService.open(SearchComponent, {
+      width: "40%",
+      header: "Search",
+      closable: true,
+      focusOnShow: true,
+      modal: true,
+      showHeader: true
+    });
   }
 
   private extractInformationForSearch(): void {
@@ -144,6 +146,17 @@ export class NavbarComponent implements OnInit {
           this.dates = "Any week";
         }
       }
-    })
+    });
+  }
+
+  openAuthPopup(): void {
+    this.ref = this.dialogService.open(AuthPopupComponent, {
+      width: "50%",
+      header: "Sign Up / Log In",
+      closable: true,
+      focusOnShow: true,
+      modal: true,
+      showHeader: true
+    });
   }
 }
