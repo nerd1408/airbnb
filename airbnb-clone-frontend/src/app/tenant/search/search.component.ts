@@ -12,6 +12,7 @@ import {
 import {FooterStepComponent} from "../../shared/footer-step/footer-step.component";
 import {SearchDateComponent} from "./search-date/search-date.component";
 import {InfoStepComponent} from "../../landlord/properties-create/step/info-step/info-step.component";
+import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-search',
@@ -20,7 +21,8 @@ import {InfoStepComponent} from "../../landlord/properties-create/step/info-step
     LocationMapComponent,
     FooterStepComponent,
     SearchDateComponent,
-    InfoStepComponent
+    InfoStepComponent,
+    MatDialogModule
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss'

@@ -17,6 +17,7 @@ import {PictureStepComponent} from "./step/picture-step/picture-step.component";
 import {DescriptionStepComponent} from "./step/description-step/description-step.component";
 import {PriceStepComponent} from "./step/price-step/price-step.component";
 import {PriceVO} from "../model/listing-vo.model";
+import { MatDialogModule } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-properties-create',
@@ -28,7 +29,8 @@ import {PriceVO} from "../model/listing-vo.model";
     InfoStepComponent,
     PictureStepComponent,
     DescriptionStepComponent,
-    PriceStepComponent
+    PriceStepComponent,
+    MatDialogModule
   ],
   templateUrl: './properties-create.component.html',
   styleUrl: './properties-create.component.scss'

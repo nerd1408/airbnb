@@ -1,8 +1,8 @@
 import { CommonModule } from "@angular/common";
-import { Component, Inject } from "@angular/core";
+import { Component, } from "@angular/core";
 import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { AuthService } from "../core/auth/auth.service";
-import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
@@ -33,7 +33,8 @@ export class AuthPopupComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private dialogRef: MatDialogRef<AuthPopupComponent>,
+    private _dialogRef: MatDialogRef<AuthPopupComponent>
+
  
   ) {
     // this.isLoginMode = this.isLoginMode;
@@ -52,7 +53,7 @@ export class AuthPopupComponent {
     if (this.isLoginMode) {
       this.authService.login(this.form.value).subscribe(
         (response) => {
-          this.dialogRef.close();
+          this.closeDialog()
           // Handle successful login
         },
         (error) => {
@@ -62,7 +63,7 @@ export class AuthPopupComponent {
     } else {
       this.authService.signup(this.form.value).subscribe(
         (response) => {
-          this.dialogRef.close();
+          this.closeDialog()
           // Handle successful signup
         },
         (error) => {
@@ -70,6 +71,9 @@ export class AuthPopupComponent {
         }
       );
     }
+  }
+  closeDialog() {
+    this._dialogRef.close();
   }
 }
 
