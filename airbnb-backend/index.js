@@ -25,8 +25,9 @@ app.use('/api/auth', authRoutes);
 app.use('/api/listing', listingRoutes);
 app.use('/api/tenant-listing', tenantListingRoutes)
 
+
 // MongoDB Connection
-const mongoURI = 'mongodb+srv://roeman:roeman@cluster0.nxiaxib.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0';  
+const mongoURI = 'mongodb://nerd:nerd@cluster0-shard-00-00.fn9ul.mongodb.net:27017,cluster0-shard-00-01.fn9ul.mongodb.net:27017,cluster0-shard-00-02.fn9ul.mongodb.net:27017/?ssl=true&replicaSet=atlas-mmfk9s-shard-0&authSource=admin&retryWrites=true&w=majority&appName=Cluster0';  
 mongoose.connect(mongoURI)
 .then(() => {
   console.log('Connected to MongoDB');

@@ -1,18 +1,19 @@
-const Listing = require('../models/tenant.model');
+const Listing = require('../models/listing.model'); // Adjust path as necessary
 
 exports.getAllListings = async () => {
-  return await Listing.get();
+  try {
+    const listings = await Listing.find(); // Use find() to retrieve all listings
+    return listings;
+  } catch (err) {
+    throw new Error(`Error retrieving listings: ${err.message}`);
+  }
 };
 
-exports.postByCategory = async () => {
-return await postCategory.post();
+exports.getListingsByCategory = async (category) => {
+  try {
+    const listings = await Listing.find({ category }); // Find by category
+    return listings;
+  } catch (err) {
+    throw new Error(`Error retrieving listings by category: ${err.message}`);
+  }
 };
-  
-exports.getAllByCategory = async () => {
-return await getAllByCategory.get();
-};
-  
-exports.getOne = async () => {
-return await getOne.getOne();
-};
-
